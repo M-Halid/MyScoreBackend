@@ -6,7 +6,7 @@ const { json } = require("express");
 const app = express();
 
 // Connect to MongoDB
-const db = monk('mongodb+srv://Halid:4534Back.@cluster0.7e6me.mongodb.net/');
+const db = monk('mongodb+srv://Halid:4534Mongo.@cluster0.7e6me.mongodb.net/');
 db.then(() => {
     console.log("Connected to the database");
 }).catch((err) => {
@@ -68,7 +68,7 @@ app.use((error, req, res, next) => {
     });
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3030;
 
 const server = app.listen(PORT, () => console.log(`Listening on http://localhost:${PORT}`));
 
