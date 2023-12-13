@@ -1,87 +1,75 @@
-import express, { json } from "express"
-import cors from "cors"
-import monk from "monk"
-const app = express()
+const express = require("express");
+const cors = require("cors");
+const monk = require("monk");
+const { json } = require("express");
 
+const app = express();
 
-const db = monk('mongodb+srv://Halid:4534Mongo.@cluster0.7e6me.mongodb.net/')
+// Connect to MongoDB
+const db = monk('mongodb+srv://Halid:4534Mongo.@cluster0.7e6me.mongodb.net/');
 db.then(() => {
-    console.log("connected")
-}
-).catch((err) => {
-    console.log("database connection failed")
-    console.log(err)
-})
+    console.log("Connected to the database");
+}).catch((err) => {
+    console.error("Database connection failed");
+    console.error(err);
+});
 
-const score = db.get("score")
-
+// Access the "score" collection
+const score = db.get("score");
 
 app.enable('trust proxy');
 
-app.use(cors())
-app.use(json())
+// Middleware
+app.use(cors());
+app.use(json());
 
-
+// Route to get a sample score
 app.get("/score", (req, res) => {
-
     res.json({
         message: "Miyaw hi haloo asd heyyy🐈"
-    })
-})
+    });
+});
 
+// Route to get all scores
+app.get("/", async (req, res, next) => {
+    try {
+        const scores = await score.find({});
+        res.json(scores);
+        console.table(scores);
+    } catch (err) {
+        console.error("Error:", err);
+        next(err);
+    }
+});
 
-
-app.get("/", (req, res, next) => {
-    console.log("HI!")
-
-    score
-        .find({})
-        .then(score => {
-            console.log("HI wieder!")
-            res.json(score)
-            console.table(score)
-        }).catch((err) => {
-            console.log("Fehler:" + err)
-            next()
-        });
-
-
-
-})
-
-
-const createScore = (req, res, next) => {
-
-
+// Middleware to create a new score
+const createScore = async (req, res, next) => {
     const data = {
         PlayerName: req.body.playerName.toString(),
         GameScore: req.body.score.toString(),
         Created: new Date()
+    };
+
+    try {
+        const createdScore = await score.insert(data);
+        res.json(createdScore);
+    } catch (err) {
+        next(err);
     }
+};
 
-    score
-        .insert(data)
-        .then(createdScore => {
-            res.json(createdScore)
-        }).catch(next);
+// Route to create a new score
+app.post('/', createScore);
 
-
-
-}
-
-
-app.post('/', createScore)
-
+// Error handling middleware
 app.use((error, req, res, next) => {
-    res.status(500);
-    res.json({
+    res.status(500).json({
         message: error.message
     });
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
+const server = app.listen(PORT, () => console.log(`Listening on http://localhost:${PORT}`));
 
-const server = app.listen(PORT, () => console.log(`Listening on http://localhost:${PORT}`))
-
-server.timeout = 1000
+server.timeout = 1000;
