@@ -24,13 +24,13 @@
   "devDependencies": {
     "nodemon": "^2.0.4"
   },
-  "homepage": "https://github.com/M-Halid/backendg",
+  "homepage": "https://github.com/M-Halid/MyScoreBackend",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/M-Halid/backendg.git"
+    "url": "git+https://github.com/M-Halid/MyScoreBackend.git"
   },
   "bugs": {
-    "url": "https://github.com/M-Halid/backendg/issues"
+    "url": "https://github.com/M-Halid/MyScoreBackend/issues"
   },
   "description": "Hey"
 }
