@@ -6,7 +6,7 @@ const { json } = require("express");
 const app = express();
 
 // Connect to MongoDB
-const db = monk('mongodb+srv://Halid:4534Back.@cluster0.7e6me.mongodb.net/?retryWrites=true&w=majority');
+const db = monk('mongodb+srv://Halid:4534Back.@cluster0.7e6me.mongodb.net/');
 db.then(() => {
     console.log("Connected to the database");
 }).catch((err) => {
