@@ -1,9 +1,8 @@
-// functions/score.js
 {/*import express, { json } from "express"
 import cors from "cors"
 import monk from "monk"
 */}
-
+require('dotenv').config();
 const express = require("express");
 const cors = require("cors");
 const monk = require("monk");
@@ -88,6 +87,6 @@ app.use((error, req, res, next) => {
 const PORT = process.env.PORT || 3000;
 
 
-const server = app.listen(PORT, () => console.log(`Listening on http://localhost:${PORT}`))
+const server = app.listen(PORT, () => console.log(`Listening on ${PORT}`))
 
 server.timeout = 1000

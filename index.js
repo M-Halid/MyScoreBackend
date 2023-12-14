@@ -2,14 +2,14 @@
 import cors from "cors"
 import monk from "monk"
 */}
-
+require('dotenv').config();
 const express = require("express");
 const cors = require("cors");
 const monk = require("monk");
 const { json } = require("express");
 
 const app = express()
-const db = monk(`${MONGO_URI}`)
+const db = monk(process.env.MONGODB_URI)
 db.then(() => {
     console.log("connected")
 }
