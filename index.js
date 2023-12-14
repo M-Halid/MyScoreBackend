@@ -9,7 +9,7 @@ const monk = require("monk");
 const { json } = require("express");
 
 const app = express()
-const db = monk('mongodb+srv://Halid:4534Mongo.@cluster0.7e6me.mongodb.net/score')
+const db = monk(`${MONGO_URI}`)
 db.then(() => {
     console.log("connected")
 }

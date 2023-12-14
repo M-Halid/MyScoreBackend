@@ -1,59 +1,93 @@
 // functions/score.js
+{/*import express, { json } from "express"
+import cors from "cors"
+import monk from "monk"
+*/}
 
 const express = require("express");
 const cors = require("cors");
 const monk = require("monk");
 const { json } = require("express");
 
-const app = express();
-const db = monk(process.env.MONGODB_URI);
-const score = db.get("score");
+const app = express()
+const db = monk(process.env.MONGODB_URI)
+db.then(() => {
+    console.log("connected")
+}
+).catch((err) => {
+    console.log("database connection failed")
+    console.log(err)
+})
 
-app.enable("trust proxy");
-app.use(cors());
-app.use(json());
+const score = db.get("score")
+
+
+app.enable('trust proxy');
+
+app.use(cors())
+app.use(json())
+
 
 app.get("/score", (req, res) => {
+
     res.json({
         message: "Miyaw hi haloo asd heyyy🐈"
-    });
-});
+    })
+})
+
+
 
 app.get("/", (req, res, next) => {
-    console.log("HI!");
+    console.log("HI!")
 
-    score.find({})
-        .then((score) => {
-            console.log("HI wieder!");
-            res.json(score);
-            console.table(score);
-        })
-        .catch((err) => {
-            console.log("Fehler:" + err);
-            next();
+    score
+        .find({})
+        .then(score => {
+            console.log("HI wieder!")
+            res.json(score)
+            console.table(score)
+        }).catch((err) => {
+            console.log("Fehler:" + err)
+            next()
         });
-});
+
+
+
+})
+
 
 const createScore = (req, res, next) => {
+
+
     const data = {
         PlayerName: req.body.playerName.toString(),
         GameScore: req.body.score.toString(),
-        Created: new Date(),
-    };
+        Created: new Date()
+    }
 
-    score.insert(data)
-        .then((createdScore) => {
-            res.json(createdScore);
-        })
-        .catch(next);
-};
+    score
+        .insert(data)
+        .then(createdScore => {
+            res.json(createdScore)
+        }).catch(next);
 
-app.post("/", createScore);
+
+
+}
+
+
+app.post('/', createScore)
 
 app.use((error, req, res, next) => {
-    res.status(500).json({
-        message: error.message,
+    res.status(500);
+    res.json({
+        message: error.message
     });
 });
 
-module.exports = app;
+const PORT = process.env.PORT || 3000;
+
+
+const server = app.listen(PORT, () => console.log(`Listening on http://localhost:${PORT}`))
+
+server.timeout = 1000
