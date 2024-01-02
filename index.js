@@ -30,7 +30,7 @@ app.use(json())
 app.get("/score", (req, res) => {
 
     res.json({
-        message: "Miyaw hi haloo asd heyyy🐈"
+        message: "haloo"
     })
 })
 
