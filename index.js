@@ -1,7 +1,4 @@
-{/*import express, { json } from "express"
-import cors from "cors"
-import monk from "monk"
-*/}
+
 require('dotenv').config();
 const express = require("express");
 const cors = require("cors");
